@@ -51,7 +51,7 @@ function Refresh-EWSRDUGroups {
 	if(!$SkipRemoval) {
 		log "Removing existing members from primary groups..."
 		foreach($group in $groups) {
-			log "Removing members from group `"$($group.Name)`"..."
+			log "    Removing members from group `"$($group.Name)`"..."
 			
 			# Get existing members
 			$members = $group | Get-ADGroupMember
