@@ -58,7 +58,9 @@ function Refresh-EWSRDUGroups {
 			$members = $group | Get-ADGroupMember
 			
 			# Remove members
-			Remove-ADGroupMember -Identity $group.Name -Members $members
+			# Wow, the -Confirm switch is garbage:
+			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
+			Remove-ADGroupMember -Identity $group.Name -Members $members -Confirm:$false
 		}
 	}
 	else {
