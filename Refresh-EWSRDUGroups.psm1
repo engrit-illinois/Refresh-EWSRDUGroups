@@ -45,7 +45,7 @@ function Refresh-EWSRDUGroups {
 		
 		$desc = "This group $descBase"
 		
-		New-ADGroup -Name $newName -SamAccountName $newName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $newName -Path $newOUDN -Description $desc
+		#New-ADGroup -Name $newName -SamAccountName $newName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $newName -Path $newOUDN -Description $desc
 	}
 	
 	# Remove all members of primary groups
@@ -58,7 +58,7 @@ function Refresh-EWSRDUGroups {
 			$members = $group | Get-ADGroupMember
 			
 			# Remove members
-			#Remove-ADGroupMember -Identity $group.Name -Members $members
+			Remove-ADGroupMember -Identity $group.Name -Members $members
 		}
 	}
 	else {
