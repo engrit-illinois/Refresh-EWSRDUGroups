@@ -28,7 +28,8 @@ function Refresh-EWSRDUGroups {
 	
 	# Pull all the primary groups
 	log "Pulling primary groups from `"$RDUOUDN`"..."
-	$groups = Get-ADGroup -Filter "*" -SearchBase $RDUOUDN
+	# SearchScope 1 is required to prevent also pulling groups in sub-OUs
+	$groups = Get-ADGroup -Filter "*" -SearchBase $RDUOUDN -SearchScope 1
 	
 	# Create new sub-OU
 	log "Creating new sub-OU named `"$SemesterIdentifier`"..."
@@ -38,14 +39,12 @@ function Refresh-EWSRDUGroups {
 	# Create new groups under new sub-OU
 	log "Creating new groups..."
 	foreach($group in $groups) {
-		log "    Creating new group for `"$($group.Name)`"..."
-		
 		$newName = "$($group.Name)-$SemesterIdentifier"
-		log "        New group name: `"$newName`""
+		log "    Creating new group for `"$($group.Name)`" named `"$newName`"..."
 		
 		$desc = "This group $descBase"
 		
-		#New-ADGroup -Name $newName -SamAccountName $newName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $newName -Path $newOUDN -Description $desc
+		New-ADGroup -Name $newName -SamAccountName $newName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $newName -Path $newOUDN -Description $desc
 	}
 	
 	# Remove all members of primary groups
