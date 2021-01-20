@@ -56,10 +56,13 @@ function Refresh-EWSRDUGroups {
 			# Get existing members
 			$members = $group | Get-ADGroupMember
 			
+			# Ignore members if they contain "-persistent", e.g. eceb-1001-rdu-persistent will not be removed from eceb-1001-rdu
+			$membersToRemove = $members | Where { $_.Name -notlike "*-persistent" }
+			
 			# Remove members
 			# Wow, the -Confirm switch is garbage:
 			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
-			Remove-ADGroupMember -Identity $group.Name -Members $members -Confirm:$false
+			Remove-ADGroupMember -Identity $group.Name -Members $membersToRemove -Confirm:$false
 		}
 	}
 	else {
