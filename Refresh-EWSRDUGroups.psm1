@@ -10,9 +10,6 @@ function Refresh-EWSRDUGroups {
 		[string]$AuthorizeGroupsForSemester,
 		
 		[ValidatePattern('^[a-zA-Z0-9]+$')]
-		[string]$DeleteGroupsForSemester,
-		
-		[ValidatePattern('^[a-zA-Z0-9]+$')]
 		[string]$DeauthorizeGroupsForSemester
 	)
 	
@@ -102,14 +99,6 @@ function Refresh-EWSRDUGroups {
 			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
 			Remove-ADGroupMember -Identity $parentGroupName -Members $semGroupName -Confirm:$false
 		}
-	}
-	
-	if($DeleteGroupsForSemester) {
-		$sem = $DeleteGroupsForSemester
-		log "Deleting groups for semester `"$sem`"..."
-		$semOUDN = "OU=$sem,$parentOUDN"
-		
-		log "    Not yet implemented!"
 	}
 	
 	log "EOF"

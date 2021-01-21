@@ -1,5 +1,7 @@
 # Summary
-This script provides handy functions to automate bulk tasks for manipulating usergroups used to control remote desktop access to the labs.
+This script provides handy functions to automate bulk tasks for manipulating usergroups used to control remote desktop access to the labs.  
+
+See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
 
 # Usage
 1. Download `Refresh-EWSRDUGroups.psm1`
@@ -13,7 +15,7 @@ This script provides handy functions to automate bulk tasks for manipulating use
   - e.g. Spring 2021, would be `2021a`.
 - It is useful to modularize the different functions provided by the different parameters because you may need to begin building the next semester's RDU groups before the current semester is over.
 - Does not currently do any checking for existence or non-existence of OUs or groups corresponding to provided `<semester identifiers>`. So know what you're doing and get them right!
-- See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
+- Deleting groups is out of scope for this script, as it's easy enough to do in bulk using ADUC. If you're going to delete groups, consider using the following script to export their membership first, just in case: https://github.com/engrit-illinois/Get-MembershipOfGroupsInOU
 
 # Parameters
 
@@ -32,22 +34,6 @@ e.g. if `-AuthorizeGroupsForSemester "2021a"` is specified, `mel-1001-rdu-2021a`
 Optional string.  
 If specified, each group within the given semester's sub-OU will be removed as a member of its respective parent group.  
 e.g. if `-DeauthorizeGroupsForSemester "2021a"` is specified, `mel-1001-rdu-2021a` will be removed as a member of `mel-1001-rdu`, and the same will hold for all other `2021a` groups.  
-
-### -DeleteGroupsForSemester <semID>
-WIP - not implemented yet!
-
-Optional string.  
-If specified:  
-1. The membership of all groups in the given semester's sub-OU will be exported to a CSV-formatted file, saved to the path given by `-MembershipExportCsv <filepath>`
-2. All groups in the given semester's sub-OU will be deleted
-3. The given semester's sub-OU will be deleted
-
-It may be useful to leave semester-based sub-OUs/groups of previous semesters intact for a while, as a reference of historical RDU group memberships. This is why `-DeauthorizeGroupsForSemester` is provided.  
-Deleting groups for a semester will inherently "deauthorize" those groups, as they will no longer exist to be members of their respective parent groups.  
-
-### -MembershipExportCsv <filepath>
-Required string if `-DeleteGroupsForSemester <semID>` is specified.  
-The full file path to a CSV file where the membership of the groups to be deleted will be exported.  
 
 # Notes
 - By mseng3
