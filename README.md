@@ -25,8 +25,7 @@ See the procedural documentation here: https://wiki.illinois.edu/wiki/display/en
 3. Run it:
 - e.g. `Refresh-EWSRDUGroups -SemesterIdentifier "2021a"
 
-
-#Parameters
+# Parameters
 
 ### -SemesterIdentifier <string>
 Required string.  
