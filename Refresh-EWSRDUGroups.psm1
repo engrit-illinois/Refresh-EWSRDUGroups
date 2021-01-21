@@ -10,13 +10,16 @@ function Refresh-EWSRDUGroups {
 		[string]$AuthorizeGroupsForSemester,
 		
 		[ValidatePattern('^[a-zA-Z0-9]+$')]
-		[string]$DeauthorizeGroupsForSemester
+		[string]$DeauthorizeGroupsForSemester,
+		
+		[string]$Log="c:\engrit\logs\Compare-AssignmentRevisions_$(Get-Date -Format `"yyyy-MM-dd_HH-mm-ss`").log"
 	)
 	
 	function log($msg) {
 		$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss:ffff"
 		$msg = "[$ts] $msg"
 		Write-Host $msg
+		$msg | Write-Output -Append -Path $Log
 	}
 	
 	# Record timestamp
