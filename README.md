@@ -42,7 +42,7 @@ If specified:
 2. All groups in the given semester's sub-OU will be deleted
 3. The given semester's sub-OU will be deleted
 
-It may be useful to leave semester-based sub-OUs/groups of previous semesters intact for a while, as a reference of historical RDU group memberships.  
+It may be useful to leave semester-based sub-OUs/groups of previous semesters intact for a while, as a reference of historical RDU group memberships. This is why `-DeauthorizeGroupsForSemester` is provided.  
 Deleting groups for a semester will inherently "deauthorize" those groups, as they will no longer exist to be members of their respective parent groups.  
 
 ### -MembershipExportCsv <filepath>
