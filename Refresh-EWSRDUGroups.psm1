@@ -19,7 +19,7 @@ function Refresh-EWSRDUGroups {
 		$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss:ffff"
 		$msg = "[$ts] $msg"
 		Write-Host $msg
-		$msg | Write-Output -Append -Path $Log
+		$msg | Out-File $Log -Append
 	}
 	
 	# Record timestamp
