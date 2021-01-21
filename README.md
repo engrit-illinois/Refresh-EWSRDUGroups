@@ -34,8 +34,22 @@ This identifier determines both the name of the new sub-OU, and the suffix of th
 
 ### -SkipRemoval
 Optional switch.  
-Causes the script to skip step #3 as described in the summary section.  
+If specified, causes the script to skip step #3 as described in the summary section.  
 Only do this is you intend to preseve RDU permissions of past semesters.  
+If specified in combination with `-RemoveOnly`, `-RemoveOnly` will be ignored.  
+
+### -RemoveOnly
+
+WIP - not implemented yet!
+
+Optional switch.  
+If specified, causes the script to skip all steps described above, except for step #3, where it will remove the semester-based groups for the given `-SemesterIdentifier` as members of the parent OU groups, and nothing else.  
+e.g. `Refresh-EWSRDUGroups -SemesterIdentifier "2021a" -RemoveOnly` will remove all members of all parent OU groups which are named like `<group>-2021a`.
+If specified in combination with `-SkipRemoval`, `-RemoveOnly` will be ignored.  
+
+This is useful because you may need to begin building the next semester's RDU groups before the current semester is over.  
+Taking the 2021 summer break as an example, you might want to run `Refresh-EWSRDUGroups -SemesterIdentifier "2021c" -SkipRemoval` before Spring 2021 is over, in order to create the new groups for Fall 2021, to process requests coming in for Fall 2021.  
+In this case, once Spring 2021 is over for realsies, you can then run `Refresh-EWSRDUGroups -SemesterIdentifier "2021a" -RemoveOnly` to strip access by those in the 2021a groups.  
 
 # Notes
 - By mseng3
