@@ -38,7 +38,7 @@ WIP - not implemented yet!
 
 Optional string.  
 If specified:  
-1. The membership of all groups in the given semester's sub-OU will be exported to have their membership data exported to a file, given by `-MembershipExportCsv <filepath>`
+1. The membership of all groups in the given semester's sub-OU will be exported to a CSV-formatted file, saved to the path given by `-MembershipExportCsv <filepath>`
 2. All groups in the given semester's sub-OU will be deleted
 3. The given semester's sub-OU will be deleted
 
