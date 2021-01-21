@@ -3,11 +3,17 @@
 
 function Refresh-EWSRDUGroups {
 	param(
-		[Parameter(Mandatory=$true)]
 		[ValidatePattern('^[a-zA-Z0-9]+$')]
-		[string]$SemesterIdentifier,
+		[string]$CreateGroupsForSemester,
 		
-		[switch]$SkipRemoval
+		[ValidatePattern('^[a-zA-Z0-9]+$')]
+		[string]$AuthorizeGroupsForSemester,
+		
+		[ValidatePattern('^[a-zA-Z0-9]+$')]
+		[string]$DeleteGroupsForSemester,
+		
+		[ValidatePattern('^[a-zA-Z0-9]+$')]
+		[string]$DeauthorizeGroupsForSemester
 	)
 	
 	function log($msg) {
@@ -22,64 +28,88 @@ function Refresh-EWSRDUGroups {
 	# Define generic description for new objects
 	$descBase = "scriptomatically created on $($ts). See documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs"
 	
-	# Define OU where primary groups exist
-	$RDUOUDN = "OU=RD User Groups,OU=Instructional,OU=UsersAndGroups,OU=Engineering,OU=Urbana,DC=ad,DC=uillinois,DC=edu"
-	$newOUDN = "OU=$($SemesterIdentifier),$RDUOUDN"
+	# Define OU where parent groups exist
+	$parentOUDN = "OU=RD User Groups,OU=Instructional,OU=UsersAndGroups,OU=Engineering,OU=Urbana,DC=ad,DC=uillinois,DC=edu"
 	
-	# Pull all the primary groups
-	log "Pulling primary groups from `"$RDUOUDN`"..."
-	# SearchScope 1 is required to prevent also pulling groups in sub-OUs
-	$groups = Get-ADGroup -Filter "*" -SearchBase $RDUOUDN -SearchScope 1
-	
-	# Create new sub-OU
-	log "Creating new sub-OU named `"$SemesterIdentifier`"..."
-	$desc = "This sub-OU $descBase"
-	New-ADOrganizationalUnit -Name $SemesterIdentifier -Path $RDUOUDN -Description $desc
-	
-	# Create new groups under new sub-OU
-	log "Creating new groups..."
-	foreach($group in $groups) {
-		$newName = "$($group.Name)-$SemesterIdentifier"
-		log "    Creating new group for `"$($group.Name)`" named `"$newName`"..."
+	if($CreateGroupsForSemester) {
+		$sem = $CreateGroupsForSemester
+		log "Creating groups for semester `"$sem`"..."
+		$semOUDN = "OU=$sem,$parentOUDN"
 		
-		$desc = "This group $descBase"
+		# Pull all the parent groups
+		log "    Pulling parent groups from `"$parentOUDN`"..."
+		# SearchScope 1 is required to prevent also pulling groups in sub-OUs
+		$parentGroups = Get-ADGroup -Filter "*" -SearchBase $parentOUDN -SearchScope 1
 		
-		New-ADGroup -Name $newName -SamAccountName $newName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $newName -Path $newOUDN -Description $desc
-	}
-	
-	# Remove all members of primary groups
-	if(!$SkipRemoval) {
-		log "Removing existing members from primary groups..."
-		foreach($group in $groups) {
-			log "    Removing members from group `"$($group.Name)`"..."
+		# Create new sub-OU
+		log "    Creating new sub-OU named `"$sem`"..."
+		$desc = "This sub-OU $descBase"
+		New-ADOrganizationalUnit -Name $sem -Path $parentOUDN -Description $desc
+		
+		# Create new semester groups under new sub-OU
+		log "    Creating new groups..."
+		foreach($parentGroup in $parentGroups) {
+			$parentGroupName = $parentGroup.name
+			$semGroupName = "$($parentGroupName)-$sem"
+			log "        Creating new group for `"$parentGroupName`" named `"$semGroupName`"..."
 			
-			# Get existing members
-			$members = $group | Get-ADGroupMember
+			$desc = "This group $descBase"
 			
-			# Ignore members if they contain "-persistent", e.g. eceb-1001-rdu-persistent will not be removed from eceb-1001-rdu
-			$membersToRemove = $members | Where { $_.Name -notlike "*-persistent" }
-			
-			# Remove members
-			# Wow, the -Confirm switch is garbage:
-			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
-			Remove-ADGroupMember -Identity $group.Name -Members $membersToRemove -Confirm:$false
+			New-ADGroup -Name $semGroupName -SamAccountName $semGroupName -GroupCategory "Security" -GroupScope "Universal" -DisplayName $semGroupName -Path $semOUDN -Description $desc
 		}
 	}
-	else {
-		log "-SkipRemoval was specified. Skipping removal of existing members from primary groups!"
+	
+	if($AuthorizeGroupsForSemester) {
+		$sem = $AuthorizeGroupsForSemester
+		log "Authorizing groups for semester `"$sem`"..."
+		$semOUDN = "OU=$sem,$parentOUDN"
+		
+		# Add semester groups as members of respective parent groups
+		log "    Adding new groups as members of their respective primary groups..."
+		
+		# Get list of semester groups
+		$semGroups = Get-ADGroup -Filter "*" -SearchBase $semOUDN -SearchScope 1
+		
+		foreach($semGroup in $semGroups) {
+			$semGroupName = $semGroup.Name
+			
+			# Caculate respective parent group that spawned this group
+			$parentGroupName = $semGroupName.Replace("-$sem","")
+			
+			# Add this semester group as a member of its parent group
+			log "        Adding `"$semGroupName`" as a member of `"$parentGroupName`"..."
+			Add-ADGroupMember -Identity $parentGroupName -Members $semGroupName
+		}
 	}
 	
-	# Add new groups as members of respective primary groups
-	log "Adding new groups as members of their respective primary groups..."
-	
-	$groups = Get-ADGroup -Filter "*" -SearchBase $newOUDN
-	
-	foreach($group in $groups) {
-		# Caculate respective primary group that spawned this group
-		$primary = ($group.Name).Replace("-$SemesterIdentifier","")
+	if($DeauthorizeGroupsForSemester) {
+		$sem = $DeauthorizeGroupsForSemester
+		log "Deauthorizing groups for semester `"$sem`"..."
+		$semOUDN = "OU=$sem,$parentOUDN"
 		
-		log "    Adding `"$($group.Name)`" as a member of `"$primary`"..."
-		Add-ADGroupMember -Identity $primary -Members $group.Name
+		# Get list of semester groups
+		$semGroups = Get-ADGroup -Filter "*" -SearchBase $semOUDN -SearchScope 1
+		
+		foreach($semGroup in $semGroups) {
+			$semGroupName = $semGroup.Name
+			
+			# Caculate respective parent group that spawned this group
+			$parentGroupName = $semGroupName.Replace("-$sem","")
+			
+			# Remove this semester group as a member from its parent group
+			log "        Removing `"$semGroupName`" as a member of `"$parentGroupName`"..."
+			# Wow, the -Confirm switch is garbage:
+			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
+			Remove-ADGroupMember -Identity $parentGroupName -Members $semGroupName -Confirm:$false
+		}
+	}
+	
+	if($DeleteGroupsForSemester) {
+		$sem = $DeleteGroupsForSemester
+		log "Deleting groups for semester `"$sem`"..."
+		$semOUDN = "OU=$sem,$parentOUDN"
+		
+		log "    Not yet implemented!"
 	}
 	
 	log "EOF"
