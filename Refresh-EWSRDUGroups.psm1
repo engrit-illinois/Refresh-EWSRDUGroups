@@ -16,8 +16,13 @@ function Refresh-EWSRDUGroups {
 	)
 	
 	function log($msg) {
+		if(!(Test-Path -PathType leaf -Path $Log)) {
+			$shutup = New-Item -ItemType File -Force -Path $Log
+		}
+		
 		$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss:ffff"
 		$msg = "[$ts] $msg"
+		
 		Write-Host $msg
 		$msg | Out-File $Log -Append
 	}
