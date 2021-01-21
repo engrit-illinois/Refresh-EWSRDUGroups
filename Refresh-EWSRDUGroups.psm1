@@ -69,9 +69,6 @@ function Refresh-EWSRDUGroups {
 		log "Authorizing groups for semester `"$sem`"..."
 		$semOUDN = "OU=$sem,$parentOUDN"
 		
-		# Add semester groups as members of respective parent groups
-		log "    Adding new groups as members of their respective primary groups..."
-		
 		# Get list of semester groups
 		$semGroups = Get-ADGroup -Filter "*" -SearchBase $semOUDN -SearchScope 1
 		
@@ -82,7 +79,7 @@ function Refresh-EWSRDUGroups {
 			$parentGroupName = $semGroupName.Replace("-$sem","")
 			
 			# Add this semester group as a member of its parent group
-			log "        Adding `"$semGroupName`" as a member of `"$parentGroupName`"..."
+			log "    Adding `"$semGroupName`" as a member of `"$parentGroupName`"..."
 			Add-ADGroupMember -Identity $parentGroupName -Members $semGroupName
 		}
 	}
@@ -102,7 +99,7 @@ function Refresh-EWSRDUGroups {
 			$parentGroupName = $semGroupName.Replace("-$sem","")
 			
 			# Remove this semester group as a member from its parent group
-			log "        Removing `"$semGroupName`" as a member of `"$parentGroupName`"..."
+			log "    Removing `"$semGroupName`" as a member of `"$parentGroupName`"..."
 			# Wow, the -Confirm switch is garbage:
 			# https://serverfault.com/questions/513462/why-does-remove-adgroupmember-default-to-requiring-confirmation
 			Remove-ADGroupMember -Identity $parentGroupName -Members $semGroupName -Confirm:$false
