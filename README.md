@@ -4,17 +4,15 @@ This script provides handy functions to automate bulk tasks for manipulating use
 # Usage
 1. Download `Refresh-EWSRDUGroups.psm1`
 2. Import it as a module: `Import-Module "c:\path\to\Refresh-EWSRDUGroups.psm1`
-3. Run it:
-- e.g. `Refresh-EWSRDUGroups -SemesterIdentifier "2021a"
+3. Run it using one or more of the parameters documented below
 
 # Notes
-- See the parameter documentation below.  Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
-- The string values provided to the paramters should be unique identifiers referring to a specific semester, referred to as a `<semID>`. By convention this should be of the format `<year><letter of semester>`, where `<letter of semester>` is `a` for spring, `b` for summer, `c` for fall, and `d` for winter (though probably only `a` and `c` will be used). e.g. Spring 2021, would be `2021a`.
+- Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
+- The string values provided to the paramters should be unique identifiers referring to a specific semester, referred to as a `<semID>`.
+  - By convention this should be of the format `<year><letter of semester>`, where `<letter of semester>` is `a` for spring, `b` for summer, `c` for fall, and `d` for winter (though probably only `a` and `c` will be used).
+  - e.g. Spring 2021, would be `2021a`.
 - It is useful to modularize the different functions provided by the different parameters because you may need to begin building the next semester's RDU groups before the current semester is over.
-  - Taking the 2021 summer break as an example, you might want to run `Refresh-EWSRDUGroups -SemesterIdentifier "2021c" -SkipRemoval` before Spring 2021 is over, in order to create the new groups for Fall 2021, to process requests coming in for Fall 2021.
-  - In this case, once Spring 2021 is over for realsies, you can then run `Refresh-EWSRDUGroups -SemesterIdentifier "2021a" -RemoveOnly` to strip access by those in the 2021a groups.
-   Whenever it makes sense to remove those groups, the `-such time as EWS sees fit to bulk delete them (which is easily done using ADUC). Since these older groups will no longer be members of the parent groups (which are used in the relevant GPOs), they will have no longer have any effect.
-- Does not currently do any checking for existence or non-existence of OUs or groups corresponding to provided `<semester identifiers>`. So know what you're doing and get them right!  
+- Does not currently do any checking for existence or non-existence of OUs or groups corresponding to provided `<semester identifiers>`. So know what you're doing and get them right!
 - See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
 
 # Parameters
