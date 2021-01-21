@@ -41,5 +41,5 @@ Optional string.
 The path to a log file where output will be saved.  
 If not specified, the default is `c:\engrit\logs\Refresh-EWSRDUGroups_yyyy-MM-dd_HH-mm-ss.log`.  
 
-# Notes
+# Author
 - By mseng3
