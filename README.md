@@ -44,7 +44,7 @@ WIP - not implemented yet!
 
 Optional switch.  
 If specified, causes the script to skip all steps described above, except for step #3, where it will remove the semester-based groups for the given `-SemesterIdentifier` as members of the parent OU groups.  
-e.g. `Refresh-EWSRDUGroups -SemesterIdentifier "2021a" -RemoveOnly` will remove all members of all parent OU groups which are named like `<group>-2021a`.
+e.g. `Refresh-EWSRDUGroups -SemesterIdentifier "2021a" -RemoveOnly` will remove all members of all parent OU groups which are named like `<group>-2021a`.  
 If specified in combination with `-SkipRemoval`, `-RemoveOnly` will be ignored.  
 
 This is useful because you may need to begin building the next semester's RDU groups before the current semester is over.  
