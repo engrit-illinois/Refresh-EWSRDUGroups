@@ -12,7 +12,7 @@ function Refresh-EWSRDUGroups {
 		[ValidatePattern('^[a-zA-Z0-9]+$')]
 		[string]$DeauthorizeGroupsForSemester,
 		
-		[string]$Log="c:\engrit\logs\Compare-AssignmentRevisions_$(Get-Date -Format `"yyyy-MM-dd_HH-mm-ss`").log"
+		[string]$Log="c:\engrit\logs\Refresh-EWSRDUGroups_$(Get-Date -Format `"yyyy-MM-dd_HH-mm-ss`").log"
 	)
 	
 	function log($msg) {
