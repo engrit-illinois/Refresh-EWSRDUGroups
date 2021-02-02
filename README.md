@@ -42,4 +42,4 @@ The path to a log file where output will be saved.
 If not specified, the default is `c:\engrit\logs\Refresh-EWSRDUGroups_yyyy-MM-dd_HH-mm-ss.log`.  
 
 # Author
-- By mseng3
+- By mseng3. See my other projects here: https://github.com/mmseng/code-compendium.
