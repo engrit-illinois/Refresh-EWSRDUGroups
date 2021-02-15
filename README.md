@@ -10,7 +10,7 @@ See the procedural documentation here: https://wiki.illinois.edu/wiki/display/en
 
 # Notes
 - Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
-- The string values provided to the paramters should be unique identifiers referring to a specific semester, referred to as a `<semID>`.
+- The string values provided to the parameters should be unique identifiers referring to a specific semester, referred to as a `<semID>`.
   - By convention this should be of the format `<year><letter of semester>`, where `<letter of semester>` is `a` for spring, `b` for summer, `c` for fall, and `d` for winter (though probably only `a` and `c` will be used).
   - e.g. Spring 2021, would be `2021a`.
   - Values for `<semID>` _must_ be alphanumeric.
