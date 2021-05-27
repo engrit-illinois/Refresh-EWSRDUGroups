@@ -4,9 +4,8 @@ This script provides handy functions to automate bulk tasks for manipulating use
 See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
 
 # Usage
-1. Download `Refresh-EWSRDUGroups.psm1`
-2. Import it as a module: `Import-Module "c:\path\to\Refresh-EWSRDUGroups.psm1`
-3. Run it using one or more of the parameters documented below
+1. Download `Refresh-EWSRDUGroups.psm1` to `$HOME\Documents\WindowsPowerShell\Modules\Refresh-EWSRDUGroups\Refresh-EWSRDUGroups.psm1`.
+2. Run it using one or more of the parameters documented below
 
 # Notes
 - Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
