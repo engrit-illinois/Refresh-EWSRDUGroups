@@ -5,7 +5,9 @@ See the procedural documentation here: https://wiki.illinois.edu/wiki/display/en
 
 # Usage
 1. Download `Refresh-EWSRDUGroups.psm1` to `$HOME\Documents\WindowsPowerShell\Modules\Refresh-EWSRDUGroups\Refresh-EWSRDUGroups.psm1`.
-2. Run it using one or more of the parameters documented below
+    - The module is now already available for use with your regular account, however it needs to modify AD objects which likely only your SU account will have access to.
+2. Make the module available as your SU account: see [here](https://github.com/engrit-illinois/how-to-run-custom-powershell-modules-as-another-user).
+3. Run it using one or more of the parameters documented below.
 
 # Notes
 - Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
