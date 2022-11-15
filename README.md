@@ -4,10 +4,9 @@ This script provides handy functions to automate bulk tasks for manipulating use
 See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
 
 # Usage
-1. Download `Refresh-EWSRDUGroups.psm1` to `$HOME\Documents\WindowsPowerShell\Modules\Refresh-EWSRDUGroups\Refresh-EWSRDUGroups.psm1`.
-    - The module is now already available for use with your regular account, however it needs to modify AD objects which likely only your SU account will have access to.
-2. Make the module available as your SU account: see [here](https://github.com/engrit-illinois/how-to-run-custom-powershell-modules-as-another-user).
-3. Run it using one or more of the parameters documented below.
+1. Download `Refresh-EWSRDUGroups.psm1` to the appropriate subdirectory of your PowerShell [modules directory](https://github.com/engrit-illinois/how-to-install-a-custom-powershell-module).
+    - The module is now already available for use with your regular account, however it needs to modify AD objects which you may only have access to do with your SU account. To make the module available as your SU account: see [here](https://github.com/engrit-illinois/how-to-run-custom-powershell-modules-as-another-user).
+2. Run it using one or more of the parameters documented below.
 
 # Notes
 - Throughout this document and the code, "parent OU" is used to refer to `ad.uillinois.edu/Urbana/Engineering/UsersAndGroups/Instructional/RD User Groups`, and "parent groups" refers to the groups in that OU (but not to the groups in sub-OUs).
