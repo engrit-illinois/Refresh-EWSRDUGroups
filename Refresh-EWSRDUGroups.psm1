@@ -1,5 +1,5 @@
 # Script documentation home: https://github.com/engrit-illinois/Refresh-EWSRDUGroups
-# Procedure documentation home: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
+# Procedure documentation home: https://uofi.atlassian.net/wiki/spaces/engritinstruction/pages/36191924/EWS+remote+access+to+Windows+labs
 
 function Refresh-EWSRDUGroups {
 	param(
@@ -31,7 +31,7 @@ function Refresh-EWSRDUGroups {
 	$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 	
 	# Define generic description for new objects
-	$descBase = "scriptomatically created on $($ts). See documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs"
+	$descBase = "scriptomatically created on $($ts). See documentation here: https://uofi.atlassian.net/wiki/spaces/engritinstruction/pages/36191924/EWS+remote+access+to+Windows+labs"
 	
 	# Define OU where parent groups exist
 	$parentOUDN = "OU=RD User Groups,OU=Instructional,OU=UsersAndGroups,OU=Engineering,OU=Urbana,DC=ad,DC=uillinois,DC=edu"
