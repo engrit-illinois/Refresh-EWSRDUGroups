@@ -1,7 +1,7 @@
 # Summary
 This script provides handy functions to automate bulk tasks for manipulating usergroups used to control remote desktop access to the labs.  
 
-See the procedural documentation here: https://wiki.illinois.edu/wiki/display/engritprivate/EWS+remote+access+to+Windows+labs
+See the procedural documentation here: https://uofi.atlassian.net/wiki/spaces/engritinstruction/pages/36191924/EWS+remote+access+to+Windows+labs
 
 # Usage
 1. Download `Refresh-EWSRDUGroups.psm1` to the appropriate subdirectory of your PowerShell [modules directory](https://github.com/engrit-illinois/how-to-install-a-custom-powershell-module).
